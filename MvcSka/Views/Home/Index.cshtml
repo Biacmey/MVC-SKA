@@ -1,0 +1,40 @@
+﻿@model CustomerTableModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 style="margin-bottom: 20px" class="display-4">客戶資料表</h1>
+    
+    @using (Html.BeginForm("CreateCustomer", "Home", new { Id = "addCustomer" }))
+    {
+        <span style="color: red">@TempData["Message"]<br/></span>
+        <input name="id" placeholder="id"/>
+        <input name="name" placeholder="name"/>
+        <input name="balance" placeholder="balance"/>
+        <button type="submit">新增</button>  
+    }
+    @foreach(var customer in Model.CustomerData)
+    {
+        <div style="display: inline-flex;margin-top: 20px">
+            <span>ID: @customer.id 　</span>
+            <span> Name: @customer.name　</span>
+            <span> Balance: @customer.balance　 </span>
+            <form method="get" id="deleteCustomer" action="@Url.Action("DeleteCustomer", "Home")">
+                <input type="hidden" value="@customer.id" name= "deleteId"/>
+                <button type="submit">X</button>
+            </form>
+        </div>
+        <br/>
+        <div style="display: inline-flex">
+            <form method="get" id="modifyCustomer" action="@Url.Action("ModifyCustomer", "Home")">
+                <input value="@customer.id" type="hidden"/>
+                <input name="modifyName" placeholder="Modify Name"/>
+                <input name="modifyBalance" placeholder="Modify Balance"/>
+                <button type="submit">修改</button>
+            </form>
+        </div>
+        <br/>
+
+    }
+</div>
